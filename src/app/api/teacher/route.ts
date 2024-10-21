@@ -27,11 +27,10 @@ export async function POST(req: Request) {
     const body = await req.json();
     const schema = await teacherSchema.validate(body, { abortEarly: false });
 
-    console.log(schema);
     const teacher = await prisma.teacher.create({
       data: schema,
     });
-    return NextResponse.json(schema, { status: 201 });
+    return NextResponse.json(teacher, { status: 201 });
   } catch (error) {
     return NextResponse.json({ message: "Error" }, { status: 500 });
   }

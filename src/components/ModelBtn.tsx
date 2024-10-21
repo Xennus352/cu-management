@@ -10,7 +10,7 @@ type modalBtnProps = {
 const ModelBtn = ({ id, name }: modalBtnProps) => {
   return (
     <div>
-      <button className="btn" onClick={() => modal(id)}>
+      <button className="btn btn-accent btn-outline" onClick={() => modal(id)}>
         {name}
       </button>
     </div>

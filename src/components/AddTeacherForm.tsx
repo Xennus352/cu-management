@@ -1,10 +1,15 @@
 "use client";
 import { teacherSchema } from "@/schema/teacherSchema";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
+import DeptName from "./DeptName";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const AddTeacherForm: React.FC = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -12,9 +17,24 @@ const AddTeacherForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(teacherSchema),
   });
-  const onSubmit = (e: any) => {
-    
+
+  const { mutate } = useMutation({
+    mutationFn: (newTeacher: Teacher) => {
+      return axios.post("/api/teacher", newTeacher);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log("work");
+      router.push("/");
+    },
+  });
+
+  const onSubmit: SubmitHandler<Teacher> = (data) => {
+    mutate(data);
   };
+
   return (
     <div className=" ">
       <form
@@ -74,8 +94,7 @@ const AddTeacherForm: React.FC = () => {
           className="select col-span-6 select-accent w-full "
           {...register("departmentId")}
         >
-          <option>CU</option>
-          <option>TU</option>
+          <DeptName />
         </select>
         <div className="form-control col-span-6">
           <label className="cursor-pointer label">

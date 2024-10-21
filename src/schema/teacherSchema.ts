@@ -13,3 +13,10 @@ export const teacherSchema = yup.object().shape({
   isMarried: yup.boolean().optional(),
   isArchived: yup.boolean(),
 });
+
+export const departmentSchema = yup.object().shape({
+  name: yup.string().required(),
+  location: yup.string().required(),
+  member: yup.number().required(),
+  isArchived: yup.boolean(),
+});
